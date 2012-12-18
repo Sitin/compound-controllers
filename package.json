@@ -1,12 +1,12 @@
 {
-  "name": "tokorovo",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node app"
-  },
-  "dependencies": {
-    "express": "3.0.4",
-    "jade": "*"
-  }
+    "name":         "tokorovo",
+    "version":      "0.0.1",
+    "private":      true,
+    "scripts":      {
+        "start": "node app"
+    },
+    "dependencies": {
+        "express": "3.0.4",
+        "jade":    "*"
+    }
 }
