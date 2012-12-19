@@ -27,8 +27,71 @@
     app.use(express.errorHandler());
   });
 
-  app.get('/', routes.index);
-  app.get('/users', user.list);
+  var Controller, ControllerBridge, bridge, handler,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+  Controller = (function() {
+
+    function Controller(app) {
+      this.app = app;
+    }
+
+    Controller.prototype.index = function(req, res) {
+      return res.render('index', {
+        title: 'Express'
+      });
+    };
+
+    Controller.prototype.user = function(req, res) {
+      return res.send("respond with a resource");
+    };
+
+    Controller.prototype.render = function() {
+      return this.app.render();
+    };
+
+    return Controller;
+
+  })();
+
+  ControllerBridge = (function() {
+
+    ControllerBridge.prototype.controllers = {};
+
+    function ControllerBridge(app) {
+      this.app = app;
+      this.handle = __bind(this.handle, this);
+    }
+
+    ControllerBridge.prototype.handle = function(ns, controller, action) {
+      if (!this.controllers[controller]) {
+        this.controllers[controller] = {
+          obj: new Controller(this.app),
+          actions: {}
+        };
+      }
+      controller = this.controllers[controller];
+      if (controller.actions[action]) {
+        return controller.actions[action];
+      } else {
+        return controller.actions[action] = function() {
+          return controller.obj[action].apply(controller.obj, arguments);
+        };
+      }
+    };
+
+    return ControllerBridge;
+
+  })();
+
+  bridge = new ControllerBridge(app);
+
+  handler = bridge.handle;
+
+  var map = new require('railway-routes').Map(app, handler);
+
+  map.get('/', 'Controller#index');
+  map.get('/users', 'Controller#list');
 
   http.createServer(app).listen(app.get('port'), function () {
     console.log("Express server listening on port " + app.get('port'));
