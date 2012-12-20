@@ -11,6 +11,10 @@ Clone this repository:
 git clone git://github.com/Sitin/takorogo.git takorogo
 cd takorogo
 ```
+Install dependencies:
+```sh
+npm i
+```
 Build project:
 ```sh
 cake compile
