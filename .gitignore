@@ -18,5 +18,4 @@ npm-debug.log
 
 node_modules
 
-controllers/*.js
-lib/*.js
+*.js
