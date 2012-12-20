@@ -8,8 +8,6 @@
     "dependencies": {
         "express":        "3.0.4",
         "jade":           "*",
-        "railway-routes": "*",
-        "lodash":         "*",
-        "coffee-script":  "~1.4"
+        "railway-routes": "*"
     }
 }
