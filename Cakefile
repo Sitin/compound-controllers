@@ -15,7 +15,12 @@ task 'nperf', 'Start performance test', ->
 
 compile = (callback) ->
   exec 'coffee -c .', (err, stdout, stderr) ->
-    console.log "Compiled coffee files."
+    if not err
+      console.log "Compiled coffee files."
+      console.log '%s%', stdout if stdout
+    else
+      console.log "Compilation performed with errors."
+      console.log '%s%', stderr if stderr
     callback?()
 
 watch = (callback) ->
@@ -36,15 +41,17 @@ watch = (callback) ->
 start = (callback) ->
   console.log "Start server:"
 
-  observer = spawn 'node', ['app'], cwd: process.cwd(), env: process.env
-  observer.stdout.on 'data', (data) ->
+  server = spawn 'node', ['app'], cwd: process.cwd(), env: process.env
+  server.stdout.on 'data', (data) ->
     console.log 'Server: %s', data
 
-  observer.stderr.on 'data', (data) ->
+  server.stderr.on 'data', (data) ->
     console.log 'Server error: %s', data
 
-  observer.on 'exit', (code) ->
+  server.on 'exit', (code) ->
     console.log 'Server stopped with code %s.', code
+
+  process.on 'exit', -> server.kill 'SIGHUP'
 
   callback?()
 

@@ -3,8 +3,7 @@ express = require 'express'
 http = require 'http'
 path = require 'path'
 
-Controller = require './lib/Controller'
-ControllerBridge = require '.lib/ControllerBridge'
+{ControllerBridge} = require './lib'
 
 app = do express
 
@@ -23,10 +22,10 @@ app.configure ->
 app.configure 'development', ->
   app.use do express.errorHandler
 
-map = new ControllerBridge(app, Controller).map
+{map} = new ControllerBridge app
 
-map.get '/', 'IndexController#index'
+map.get '/', 'index#index'
 
 server = http.createServer app
-server.listen app.get 'port', ->
+server.listen (app.get 'port'), ->
   console.log "Express server listening on port %s", app.get 'port'
