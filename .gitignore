@@ -21,3 +21,4 @@ node_modules
 controllers/*.js
 lib/*.js
 /*.js
+/doc/

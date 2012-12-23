@@ -12,15 +12,17 @@ task 'start', 'Start server', ->
 task 'nperf', 'Start performance test', ->
   compile -> start -> nperf -> stop()
 
+task 'doc', 'Document CoffeeScript', ->
+  doc()
 
 compile = (callback) ->
   exec 'coffee -c .', (err, stdout, stderr) ->
     if not err
       console.log "Compiled coffee files."
-      console.log '%s%', stdout if stdout
+      console.log '[compile:] %s%', stdout if stdout
     else
       console.log "Compilation performed with errors."
-      console.log '%s%', stderr if stderr
+      console.log '[compile:error:] %s%', stderr if stderr
     callback?()
 
 watch = (callback) ->
@@ -28,10 +30,10 @@ watch = (callback) ->
 
   observer = spawn 'coffee', ['-w', '-c', '.'], cwd: process.cwd(), env: process.env
   observer.stdout.on 'data', (data) ->
-    console.log 'Observer: %s', data
+    console.log '[watch:] %s', data
 
   observer.stderr.on 'data', (data) ->
-    console.log 'Observer error: %s', data
+    console.log '[watch:error:] %s', data
 
   observer.on 'exit', (code) ->
     console.log 'Watching complete with code %s.', code
@@ -43,10 +45,10 @@ start = (callback) ->
 
   server = spawn 'node', ['app'], cwd: process.cwd(), env: process.env
   server.stdout.on 'data', (data) ->
-    console.log 'Server: %s', data
+    console.log '[server:] %s', data
 
   server.stderr.on 'data', (data) ->
-    console.log 'Server error: %s', data
+    console.log '[server:error:] %s', data
 
   server.on 'exit', (code) ->
     console.log 'Server stopped with code %s.', code
@@ -57,9 +59,14 @@ start = (callback) ->
 
 nperf = (callback) ->
   exec 'nperf -c 50 -n 500 http://localhost:3000/', (err, stdout, stderr) ->
-    console.log 'Node-perf: %s', stdout
-    throw console.log 'Node-perf errors: %s', stderr if stderr
-    console.log "Node-perf test completed."
+    console.log "[node-perf:]\n%s", stdout
+    throw console.log "[node-perf:error:]\n%s", stderr if stderr
+    callback?()
+
+doc = (callback) ->
+  exec 'codo', (err, stdout, stderr) ->
+    console.log "[Codo:]\n%s", stdout
+    throw console.log "[Codo:error:]\n%s", stderr if stderr
     callback?()
 
 stop = (callback) ->
