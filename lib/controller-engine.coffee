@@ -137,7 +137,7 @@ class ControllersEngine
     @controllers[ns][controller]
 
   #
-  # Create controller instance using constructor or assumes that
+  # Creates controller instance using constructor or assumes that
   # Constructor is an instance if object passed.
   #
   # @param [Function] Constructor
@@ -173,7 +173,7 @@ class ControllersEngine
     require "#{base}/#{filename}"
 
   #
-  # Loads and instantiats controller
+  # Loads and instantiates controller
   #
   # @param [String] ns controller's namespace
   # @param [String] controller controller's name

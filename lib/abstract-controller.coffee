@@ -25,7 +25,7 @@ class AbstractController
       next: next
       requestedAction: action
 
-    # Simply perform the action
+    # Simply perform an action
     @[action].call actionContext
 
   getActionHandler: (action) ->

@@ -15,6 +15,9 @@ task 'nperf', 'Start performance test', ->
 task 'doc', 'Document CoffeeScript', ->
   doc()
 
+task 'test', 'Test source code', ->
+  compile -> test()
+
 compile = (callback) ->
   exec 'coffee -c .', (err, stdout, stderr) ->
     if not err
@@ -71,3 +74,18 @@ doc = (callback) ->
 
 stop = (callback) ->
   process.exit 0
+
+test = (callback) ->
+  console.log "Perform tests:"
+
+  mocha = spawn './node_modules/.bin/mocha', ['test', '-u', 'bdd', '--recursive', '-c', '-R', 'spec'],
+    cwd: process.cwd()
+    env: process.env
+    stdio: 'inherit'
+
+  mocha.on 'exit', (code) ->
+    console.log 'Tests performed with code %s.', code
+
+  process.on 'exit', -> mocha.kill 'SIGHUP'
+
+  callback?()
