@@ -13,7 +13,7 @@ _ = require 'lodash'
 Action = require '../lib/action'
 
 
-describe.only 'Action', ->
+describe 'Action', ->
   it 'should use first constructor parameter as an action path', ->
     expect(new Action "controller#action").to.have.property 'action', 'controller#action'
 
