@@ -5,7 +5,9 @@
 
 map "user/:id", to "users#show"
 
-map "posts", as resource
+match "customer/:id", to "customer#show"
+
+map "posts", as resource # from 'conroller namespace X'
 
 map "pages", as read only resource ->
   map "comments", as resource except "delete"
