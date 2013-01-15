@@ -13,7 +13,7 @@ class Action
   #
   # Constructs action object.
   #
-  # @param namespace [Function] action route
+  # @param action [string] action route
   #
   # @throw "Action path should be a non-empty string value" if action is not a non-empty string
   #
