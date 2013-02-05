@@ -25,7 +25,7 @@ ControllerBridge = require '../lib/controller-bridge'
 
 describe 'ControllerBridge', ->
   # Usefull stuff:
-  expectCallOnceOnConstruction = (method) ->
+  expectCalledOnceOnConstruction = (method) ->
     # Backup and mock:
     backup = ControllerBridge.prototype[method]
     spy = ControllerBridge.prototype[method] = chai.spy backup
@@ -49,16 +49,16 @@ describe 'ControllerBridge', ->
       .to.throw "ControllersEngine hasn't been injected into ControllerBridge class"
 
   it 'should ensure that all required parameters have been passed to constructor', ->
-    expectCallOnceOnConstruction 'ensureParameters'
+    expectCalledOnceOnConstruction 'ensureParameters'
 
   it 'should import settings from application', ->
-    expectCallOnceOnConstruction 'importSettings'
+    expectCalledOnceOnConstruction 'importSettings'
 
   it 'should setup controller engine', ->
-    expectCallOnceOnConstruction 'setupEngine'
+    expectCalledOnceOnConstruction 'setupEngine'
 
   it 'should create mapper', ->
-    expectCallOnceOnConstruction 'createMapper'
+    expectCalledOnceOnConstruction 'createMapper'
 
   describe '#importSettings', ->
     it 'should import base directory and default prototype', ->
