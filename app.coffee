@@ -3,7 +3,7 @@ express = require 'express'
 http = require 'http'
 path = require 'path'
 
-{ControllerBridge} = require './lib'
+bridge = require '.'
 
 app = do express
 
@@ -22,7 +22,7 @@ app.configure ->
 app.configure 'development', ->
   app.use do express.errorHandler
 
-{map} = new ControllerBridge app
+map = bridge app
 
 map.get '/', 'index#index'
 

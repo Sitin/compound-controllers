@@ -4,7 +4,7 @@ path = require 'path'
 assert = require 'assert'
 AbstractController = require __dirname + '/abstract-controller'
 
-class ControllersEngine
+class ControllerEngine
   #
   #
   #
@@ -184,4 +184,4 @@ class ControllersEngine
     thatInheritsFrom = @loadControllerModule ns, controller
     @makeControllerInstance thatInheritsFrom @ancestorForNamespace ns
 
-module.exports = ControllersEngine
+module.exports = ControllerEngine
