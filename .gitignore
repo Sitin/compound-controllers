@@ -15,6 +15,7 @@ npm-debug.log
 
 .idea
 .c9revisions
+.DS_Store
 
 node_modules
 
