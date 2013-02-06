@@ -37,7 +37,7 @@ describe 'ControllerBridge', ->
     # Restore:
     ControllerBridge.prototype[method] = backup
 
-  it 'should be an injector function', ->
+  it 'should be a constructor function', ->
     expect(ControllerBridge).to.be.a 'function'
 
   it 'should expect application as a first parameter', ->
