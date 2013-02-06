@@ -32,7 +32,7 @@ describe 'ControllerBridge', ->
 
     # Test:
     new ControllerBridge app, ControllersEngine
-    expect(spy).to.be.called.once
+    expect(spy).have.been.called.once
 
     # Restore:
     ControllerBridge.prototype[method] = backup
@@ -88,7 +88,7 @@ describe 'ControllerBridge', ->
 
       setupEngine.call context
 
-      expect(spy).to.be.called.once
+      expect(spy).have.been.called.once
       expect(test.baseDir).to.be.equal context.baseDir
       expect(test.defaultPrototype).to.be.equal context.defaultPrototype
 

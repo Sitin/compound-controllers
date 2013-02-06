@@ -42,7 +42,7 @@ describe 'AbstractController', ->
 
         actionHandler 1, 2, 3
 
-        expect(spy).to.be.called.once
+        expect(spy).have.been.called.once
         expect(test.action).to.be.equal 'action'
         expect(test.params).to.be.deep.equal [1, 2, 3]
 
