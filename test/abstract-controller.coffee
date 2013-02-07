@@ -22,7 +22,7 @@ describe 'AbstractController', ->
     controller = new AbstractController
     expect(controller._ActionContextConstructor.prototype).to.be.equal controller
 
-  # Instantiate AbstractController (yes, this is all Javascript):
+  # Instantiate Controller:
   controller = new Controller
 
   describe '#getActionHandler', ->
@@ -49,3 +49,51 @@ describe 'AbstractController', ->
         controller.performAction = backup
 
   describe '#performAction', ->
+    it 'should check whether requested action exists', ->
+      test = undefined
+      controller.performAction 'nothing', {}, {}, (err) ->
+        test = err
+      expect(test).to.be.equal "Error: there no action nothing."
+
+    it 'should request action context creation with passed req, res and next', ->
+      test = undefined
+      backup = controller.createActionContext
+      spy = controller.createActionContext = chai.spy (params) ->
+        test = params
+
+      controller.performAction 'action', 'req', 'res', 'next'
+
+      expect(spy).to.be.called.once
+      expect(test).to.be.deep.equal req: 'req', res: 'res', next: 'next', requestedAction: 'action'
+
+      controller.createActionContext = backup
+
+    it 'should perform action in created context', ->
+      test = undefined
+      context = spam: 'eggs'
+
+      backupCAC = controller.createActionContext
+      backupA = controller.action
+      controller.createActionContext = ->
+        context
+      spy = controller.action = chai.spy ->
+        test = @
+
+      controller.performAction 'action'
+
+      expect(spy).to.be.called.once
+      expect(test).to.be.deep.equal context
+
+      controller.createActionContext = backupCAC
+      controller.action = backupA
+
+  describe '#_ActionContextConstructor', ->
+    it 'should merge passed params into context', ->
+      context = spam: 'eggs'
+      mixin = eggs: 'spam'
+      mix = spam: 'eggs', eggs: 'spam'
+
+      controller._ActionContextConstructor.call context, mixin
+
+      expect(context).to.be.deep.equal mix
+

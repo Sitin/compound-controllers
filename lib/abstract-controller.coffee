@@ -10,7 +10,7 @@ class AbstractController
     _.merge @, mixin
 
   createActionContext: (mixin) ->
-    context = new @_ActionContextConstructor mixin
+    new @_ActionContextConstructor mixin
 
   performAction: (action, req, res, next) ->
     # Check if action exists:
