@@ -87,6 +87,14 @@ describe 'AbstractController', ->
       controller.createActionContext = backupCAC
       controller.action = backupA
 
+  describe 'createActionContext', ->
+    it 'should instantiate _ActionContextConstructor', ->
+      expect(do controller.createActionContext).to.be.instanceOf controller._ActionContextConstructor
+
+    it 'should merge passed parameters to action context', ->
+      context = controller.createActionContext eggs: 'spam'
+      expect(context).to.have.property 'eggs', 'spam'
+
   describe '#_ActionContextConstructor', ->
     it 'should merge passed params into context', ->
       context = spam: 'eggs'
